@@ -1,14 +1,6 @@
 #include <stdio.h>
+#include <string.h>
 #include "time.h"
-
-
-int day_of_the_year(int year, int month, int days);
-
-int is_leapyear(int year);
-
-int get_days_for_month(int year, int month);
-
-int exists_date(int year, int month, int days);
 
 
 int Jahr[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
@@ -61,7 +53,7 @@ int get_days_for_month(int year, int month) {
 
 int exists_date(int year, int month, int days) {
     int ERROR = 1;
-    
+
     if(year < 1582 || year > 2400 ) {
         printf("This Year doesn't exist\n");
         ERROR = 0;
@@ -75,4 +67,9 @@ int exists_date(int year, int month, int days) {
         ERROR = 0;
     }
     return ERROR;
+}
+
+int day_of_the_week(int d, int m, int y) {
+    int weekday  = (d += m < 3 ? y-- : y - 2, 23*m/9 + d + 4 + y/4- y/100 + y/400)%7;
+    return weekday;
 }
