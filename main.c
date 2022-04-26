@@ -67,7 +67,7 @@ int get_days_for_month(int year, int month) {
 
 int exists_date(int year, int month, int days) {
     int ERROR = 1;
-    if(year < 1582 && year > 2400 ) {
+    if(year < 1582 || year > 2400 ) {
         printf("This Year doesn't exist\n");
         ERROR = 0;
     }
