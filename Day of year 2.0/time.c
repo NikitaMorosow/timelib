@@ -14,7 +14,7 @@ int day_of_the_year(struct year day_of_month){ //Days of Year berechnen
     return ergebnis;
 }
 
-void input_date(struct year *input) {
+void input_date(struct year *input) {   // Set the Date Values
     do {
         printf("\nGeben Sie das Jahr ein: ");
         scanf("%i", &input -> year);
@@ -24,12 +24,12 @@ void input_date(struct year *input) {
         scanf("%i", &input -> day);
     } while (!exists_date(*input));
 
-    if(is_leapyear(input -> year) && Jahr[1] == 28) {
+    if(is_leapyear(input -> year) && Jahr[1] == 28) {   //if its a leap year add a day in Febuary
             Jahr[1] += 1;
     }
 }
 
-int is_leapyear(int year) {
+int is_leapyear(int year) { //Check if its a Leap Year
     if(year < 1582) {
         return -1;
     }
@@ -45,13 +45,13 @@ int is_leapyear(int year) {
     return 0;
 }
 
-int get_days_for_month(struct year day_of_month) {
+int get_days_for_month(struct year day_of_month) {  //gives out the amount of days in the month
     day_of_month.day = Jahr[day_of_month.month -1];
 
     return day_of_month.day;
 }
 
-int exists_date(struct year exist) {
+int exists_date(struct year exist) {    //Checking if the day exists
     int ERROR = 1;
 
     if(exist.year < 1582 || exist.year > 2400 ) {
@@ -69,12 +69,12 @@ int exists_date(struct year exist) {
     return ERROR;
 }
 
-int day_of_the_week(struct year week) {
+int day_of_the_week(struct year week) {     //gives out the weekday of the date 
     int weekday  = (week.day += week.month < 3 ? week.year-- : week.year - 2, 23*week.month/9 + week.day + 4 + week.year/4- week.year/100 + week.year/400)%7;
     return weekday;
 }
 
-int week_of_the_year(int year, int days_of_year, int days_of_week) {
+int week_of_the_year(int year, int days_of_year, int days_of_week) {    //gives out wich week in the year is
     struct year week;
     int weeks = 0;
     week.day = 1;

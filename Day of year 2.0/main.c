@@ -20,7 +20,6 @@ int main () {
 
     while(1){
         //Definieren der Datumswerte
-        //input_date(&Datum[0], &Datum[1], &Datum[2]);
         input_date(&sel_year);
 
         if(exists_date(sel_year)) {     //Ausgabe des Tages
