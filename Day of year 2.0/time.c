@@ -85,6 +85,12 @@ int week_of_the_year(int year, int days_of_year, int days_of_week) {    //gives 
         weeks++;
         int weeks_rest = (days_of_year - days_of_week) % 7;
         weeks += (weeks_rest > 3) ? 1 : 0;
+        if(days_of_year > 362 && !is_leapyear(year) && (days_of_week < 4) && (days_of_week)) {
+            weeks = 1;
+        }
+        else if(days_of_year > 363 && is_leapyear(year) && (days_of_week < 4) && days_of_week) {
+            weeks = 1;
+        }
     }
     else{
         int last_year = day_of_the_week(week);
