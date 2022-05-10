@@ -10,4 +10,6 @@ int exists_date(int year, int month, int days);
 
 void input_date(int *year, int *month, int *days);
 
-int day_of_the_week(int d, int m, int y);
+int day_of_the_week(int y, int m, int d);
+
+int week_of_the_year(int year, int days_of_year, int days_of_week);

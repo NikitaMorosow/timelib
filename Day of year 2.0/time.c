@@ -62,14 +62,29 @@ int exists_date(int year, int month, int days) {
         printf("This Month doesn't exist\n");
         ERROR = 0;
     }
-    if(get_days_for_month(year, month) <= days && ERROR) {
+    if(get_days_for_month(year, month) < days++ && ERROR) {
         printf("This Day doesn't exist\n");
         ERROR = 0;
     }
     return ERROR;
 }
 
-int day_of_the_week(int d, int m, int y) {
+int day_of_the_week(int y, int m, int d) {
     int weekday  = (d += m < 3 ? y-- : y - 2, 23*m/9 + d + 4 + y/4- y/100 + y/400)%7;
     return weekday;
+}
+
+int week_of_the_year(int year, int days_of_year, int days_of_week) {
+    int weeks = 0;
+    if(days_of_year > 3) {
+        weeks = (days_of_year - days_of_week) / 7;
+        weeks++;
+        int weeks_rest = (days_of_year - days_of_week) % 7;
+        weeks += (weeks_rest > 3) ? 1 : 0;
+    }
+    else{
+        int last_year = day_of_the_week(1, 1, year - 1);
+        weeks = last_year <= 3 ? 53 : 52;
+    }
+    return weeks;
 }
