@@ -5,26 +5,26 @@
 
 int Jahr[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 
-int day_of_the_year(int year, int month, int days){ //Days of Year berechnen
+int day_of_the_year(struct year day_of_month){ //Days of Year berechnen
     int ergebnis = 0;
-    for(int y = 0; y < month - 1; y++){
+    for(int y = 0; y < day_of_month.month - 1; y++){
         ergebnis += Jahr[y];
     }
-    ergebnis += days;
+    ergebnis += day_of_month.day;
     return ergebnis;
 }
 
-void input_date(int *year, int *month, int *days) {
+void input_date(struct year *input) {
     do {
         printf("\nGeben Sie das Jahr ein: ");
-        scanf("%i", year);
+        scanf("%i", &input -> year);
         printf("Geben Sie den Monat ein: ");
-        scanf("%i", month);
+        scanf("%i", &input -> month);
         printf("Geben Sie den Tag ein: ");
-        scanf("%i", days);
-    } while (!exists_date(*year, *month, *days));
+        scanf("%i", &input -> day);
+    } while (!exists_date(*input));
 
-    if(is_leapyear(*year) && Jahr[1] == 28) {
+    if(is_leapyear(input -> year) && Jahr[1] == 28) {
             Jahr[1] += 1;
     }
 }
@@ -45,37 +45,41 @@ int is_leapyear(int year) {
     return 0;
 }
 
-int get_days_for_month(int year, int month) {
-    int day = Jahr[month -1];
+int get_days_for_month(struct year day_of_month) {
+    day_of_month.day = Jahr[day_of_month.month -1];
 
-    return day;
+    return day_of_month.day;
 }
 
-int exists_date(int year, int month, int days) {
+int exists_date(struct year exist) {
     int ERROR = 1;
 
-    if(year < 1582 || year > 2400 ) {
+    if(exist.year < 1582 || exist.year > 2400 ) {
         printf("This Year doesn't exist\n");
         ERROR = 0;
     }
-    if(month > 12 && month < 0 ) {
+    if(exist.month > 12 && exist.month < 0 ) {
         printf("This Month doesn't exist\n");
         ERROR = 0;
     }
-    if(get_days_for_month(year, month) < days++ && ERROR) {
+    if(get_days_for_month(exist) < exist.day++ && ERROR) {
         printf("This Day doesn't exist\n");
         ERROR = 0;
     }
     return ERROR;
 }
 
-int day_of_the_week(int y, int m, int d) {
-    int weekday  = (d += m < 3 ? y-- : y - 2, 23*m/9 + d + 4 + y/4- y/100 + y/400)%7;
+int day_of_the_week(struct year week) {
+    int weekday  = (week.day += week.month < 3 ? week.year-- : week.year - 2, 23*week.month/9 + week.day + 4 + week.year/4- week.year/100 + week.year/400)%7;
     return weekday;
 }
 
 int week_of_the_year(int year, int days_of_year, int days_of_week) {
+    struct year week;
     int weeks = 0;
+    week.day = 1;
+    week.month = 1;
+    week.year = year - 1;
     if(days_of_year > 3) {
         weeks = (days_of_year - days_of_week) / 7;
         weeks++;
@@ -83,7 +87,7 @@ int week_of_the_year(int year, int days_of_year, int days_of_week) {
         weeks += (weeks_rest > 3) ? 1 : 0;
     }
     else{
-        int last_year = day_of_the_week(1, 1, year - 1);
+        int last_year = day_of_the_week(week);
         weeks = last_year <= 3 ? 53 : 52;
     }
     return weeks;

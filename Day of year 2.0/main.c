@@ -12,17 +12,21 @@
  * ******************************************/
 
 int main () {
-    int Datum[3] = {0,0,0};
     char* day_of_week[] = {"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"};
+    struct year sel_year;
+    sel_year.day= 0;
+    sel_year.month = 0;
+    sel_year.year = 0;
 
     while(1){
         //Definieren der Datumswerte
-        input_date(&Datum[0], &Datum[1], &Datum[2]);
+        //input_date(&Datum[0], &Datum[1], &Datum[2]);
+        input_date(&sel_year);
 
-        if(exists_date(Datum[0], Datum[1], Datum[2])) {     //Ausgabe des Tages
-            int days_of_week = day_of_the_week(Datum[0], Datum[1], Datum[2]);
-            int days_of_year = day_of_the_year(Datum[0], Datum[1], Datum[2]);
-            int weeks = week_of_the_year(Datum[0],days_of_year ,days_of_week);
+        if(exists_date(sel_year)) {     //Ausgabe des Tages
+            int days_of_week = day_of_the_week(sel_year);
+            int days_of_year = day_of_the_year(sel_year);
+            int weeks = week_of_the_year(sel_year.year ,days_of_year ,days_of_week);
             printf("Heute ist der %i. Tag dieses Jahres\n", days_of_year);
             printf("Das ist ein %s\n",day_of_week[days_of_week]);
             printf("Das ist die %i. Woche", weeks);
